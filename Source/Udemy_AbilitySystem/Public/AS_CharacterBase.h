@@ -9,6 +9,8 @@
 #include "Abilities/GameplayAbility.h"
 #include "AS_CharacterBase.generated.h"
 
+class UAS_AttributeSet;
+
 UCLASS()
 class UDEMY_ABILITYSYSTEM_API AAS_CharacterBase : public ACharacter, public IAbilitySystemInterface
 {
@@ -23,6 +25,9 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
 	UAbilitySystemComponent* AbilitySystemComponent;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Attribute")
+	UAS_AttributeSet* AttributeSetBaseComponent;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -33,6 +38,8 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+public:
 
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 

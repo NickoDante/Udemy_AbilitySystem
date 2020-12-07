@@ -2,6 +2,7 @@
 
 
 #include "AS_CharacterBase.h"
+#include "AS_AttributeSet.h"
 
 // Sets default values
 AAS_CharacterBase::AAS_CharacterBase()
@@ -10,6 +11,7 @@ AAS_CharacterBase::AAS_CharacterBase()
 	PrimaryActorTick.bCanEverTick = true;
 
 	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>("AbilitySystemComponent");
+	AttributeSetBaseComponent = CreateDefaultSubobject<UAS_AttributeSet>("AttributeSetComponent");
 }
 
 // Called when the game starts or when spawned
