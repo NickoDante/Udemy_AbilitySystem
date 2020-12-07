@@ -4,16 +4,24 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "AbilitySystemInterface.h"
+#include "AbilitySystemComponent.h"
+#include "Abilities/GameplayAbility.h"
 #include "AS_CharacterBase.generated.h"
 
 UCLASS()
-class UDEMY_ABILITYSYSTEM_API AAS_CharacterBase : public ACharacter
+class UDEMY_ABILITYSYSTEM_API AAS_CharacterBase : public ACharacter, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this character's properties
 	AAS_CharacterBase();
+
+protected:
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
+	UAbilitySystemComponent* AbilitySystemComponent;
 
 protected:
 	// Called when the game starts or when spawned
@@ -26,4 +34,8 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+
+	UFUNCTION(BlueprintCallable, Category = "Abilities")
+	void AquireAbility(TSubclassOf<UGameplayAbility> AbilityToAquire);
 };

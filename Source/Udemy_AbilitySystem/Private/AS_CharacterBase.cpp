@@ -9,6 +9,7 @@ AAS_CharacterBase::AAS_CharacterBase()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>("AbilitySystemComponent");
 }
 
 // Called when the game starts or when spawned
@@ -30,5 +31,26 @@ void AAS_CharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+}
+
+UAbilitySystemComponent* AAS_CharacterBase::GetAbilitySystemComponent() const
+{
+	return AbilitySystemComponent;
+}
+
+void AAS_CharacterBase::AquireAbility(TSubclassOf<UGameplayAbility> AbilityToAquire)
+{
+	if (IsValid(AbilitySystemComponent))
+	{
+		if (HasAuthority() && AbilityToAquire)
+		{
+			FGameplayAbilitySpecDef SpecDef = FGameplayAbilitySpecDef();
+			SpecDef.Ability = AbilityToAquire;
+			FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(SpecDef, 1);
+			AbilitySystemComponent->GiveAbility(AbilitySpec);
+		}
+
+		AbilitySystemComponent->InitAbilityActorInfo(this, this);
+	}
 }
 
