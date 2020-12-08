@@ -22,4 +22,8 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AttributeSet")
 	FGameplayAttributeData Health;
+
+protected:
+
+	void PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData &Data) override;
 };
