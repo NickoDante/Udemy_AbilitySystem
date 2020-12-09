@@ -17,6 +17,8 @@ void UAS_AttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectMod
 	// If the value that has been affected was the Health.
 	if (Data.EvaluatedData.Attribute.GetUProperty() == FindFieldChecked<UProperty>(UAS_AttributeSet::StaticClass(), GET_MEMBER_NAME_CHECKED(UAS_AttributeSet, Health)))
 	{
+		Health.SetCurrentValue(FMath::Clamp(Health.GetCurrentValue(), 0.0f, MaxHealth.GetCurrentValue()));
+		Health.SetBaseValue(FMath::Clamp(Health.GetBaseValue(), 0.0f, MaxHealth.GetBaseValue()));
 		UE_LOG(LogTemp, Warning, TEXT("Ouch, I took some damage, now my Health is: %f"), Health.GetCurrentValue());
 		OnHealthChangeDelegate.Broadcast(Health.GetCurrentValue(), MaxHealth.GetCurrentValue());
 	}

@@ -29,6 +29,10 @@ protected:
 	UAS_AttributeSet* AttributeSetBaseComponent;
 
 protected:
+
+	bool bIsDead;
+
+protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
@@ -49,6 +53,11 @@ public:
 	UFUNCTION()
 	void OnHealthChange(float Health, float MaxHealth);
 
+public:
+
 	UFUNCTION(BlueprintImplementableEvent/*, meta = (DisplayName = "OnHealthChange")*/)
 	void BP_OnHealthChange(float Health, float MaxHealth);
+
+	UFUNCTION(BlueprintImplementableEvent/*, meta = (DisplayName = "OnHealthChange")*/)
+	void BP_Die();
 };

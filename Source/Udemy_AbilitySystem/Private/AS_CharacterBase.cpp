@@ -12,6 +12,8 @@ AAS_CharacterBase::AAS_CharacterBase()
 
 	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>("AbilitySystemComponent");
 	AttributeSetBaseComponent = CreateDefaultSubobject<UAS_AttributeSet>("AttributeSetComponent");
+
+	bIsDead = false;
 }
 
 // Called when the game starts or when spawned
@@ -58,6 +60,12 @@ void AAS_CharacterBase::AquireAbility(TSubclassOf<UGameplayAbility> AbilityToAqu
 
 void AAS_CharacterBase::OnHealthChange(float Health, float MaxHealth)
 {
+	if (Health <= 0.0f && !bIsDead)
+	{
+		bIsDead = true;
+		BP_Die();
+	}
+
 	BP_OnHealthChange(Health, MaxHealth);
 }
 
