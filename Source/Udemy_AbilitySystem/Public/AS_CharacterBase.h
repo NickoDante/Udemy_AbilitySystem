@@ -32,6 +32,8 @@ protected:
 
 	bool bIsDead;
 
+	uint8 TeamID;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -52,6 +54,15 @@ public:
 
 	UFUNCTION()
 	void OnHealthChange(float Health, float MaxHealth);
+
+	void AutoDeterminTeamIDbyControllerType();
+
+	UFUNCTION(BlueprintCallable, Category = "Getter")
+	bool IsOtherHostile(AAS_CharacterBase* OtherCharacter) const;
+
+	uint8 GetTeamID() const { return TeamID; };
+
+	void Dead();
 
 public:
 

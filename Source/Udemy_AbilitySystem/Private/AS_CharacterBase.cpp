@@ -3,6 +3,9 @@
 
 #include "AS_CharacterBase.h"
 #include "AS_AttributeSet.h"
+#include "GameFramework/PlayerController.h"
+#include "AIController.h"
+#include "BrainComponent.h"
 
 // Sets default values
 AAS_CharacterBase::AAS_CharacterBase()
@@ -14,6 +17,7 @@ AAS_CharacterBase::AAS_CharacterBase()
 	AttributeSetBaseComponent = CreateDefaultSubobject<UAS_AttributeSet>("AttributeSetComponent");
 
 	bIsDead = false;
+	TeamID = 255;
 }
 
 // Called when the game starts or when spawned
@@ -21,6 +25,8 @@ void AAS_CharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
 	AttributeSetBaseComponent->OnHealthChangeDelegate.AddDynamic(this, &AAS_CharacterBase::OnHealthChange);
+
+	AutoDeterminTeamIDbyControllerType();
 }
 
 // Called every frame
@@ -63,9 +69,38 @@ void AAS_CharacterBase::OnHealthChange(float Health, float MaxHealth)
 	if (Health <= 0.0f && !bIsDead)
 	{
 		bIsDead = true;
+		Dead();
 		BP_Die();
 	}
 
 	BP_OnHealthChange(Health, MaxHealth);
+}
+
+void AAS_CharacterBase::AutoDeterminTeamIDbyControllerType()
+{
+	if (GetController() && GetController()->IsPlayerController())
+	{
+		TeamID = 0;
+	}
+}
+
+bool AAS_CharacterBase::IsOtherHostile(AAS_CharacterBase* OtherCharacter) const
+{
+	return TeamID != OtherCharacter->GetTeamID();
+}
+
+void AAS_CharacterBase::Dead()
+{
+	APlayerController* PC = Cast<APlayerController>(GetController());
+	if (PC)
+	{
+		PC->DisableInput(PC);
+	}
+
+	AAIController* AIC = Cast<AAIController>(GetController());
+	if (AIC)
+	{
+		AIC->GetBrainComponent()->StopLogic("Dead");
+	}
 }
 
