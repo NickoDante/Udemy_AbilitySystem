@@ -45,4 +45,10 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Abilities")
 	void AquireAbility(TSubclassOf<UGameplayAbility> AbilityToAquire);
+
+	UFUNCTION()
+	void OnHealthChange(float Health, float MaxHealth);
+
+	UFUNCTION(BlueprintImplementableEvent/*, meta = (DisplayName = "OnHealthChange")*/)
+	void BP_OnHealthChange(float Health, float MaxHealth);
 };

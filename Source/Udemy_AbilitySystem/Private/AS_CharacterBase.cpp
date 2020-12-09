@@ -18,7 +18,7 @@ AAS_CharacterBase::AAS_CharacterBase()
 void AAS_CharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	AttributeSetBaseComponent->OnHealthChangeDelegate.AddDynamic(this, &AAS_CharacterBase::OnHealthChange);
 }
 
 // Called every frame
@@ -54,5 +54,10 @@ void AAS_CharacterBase::AquireAbility(TSubclassOf<UGameplayAbility> AbilityToAqu
 
 		AbilitySystemComponent->InitAbilityActorInfo(this, this);
 	}
+}
+
+void AAS_CharacterBase::OnHealthChange(float Health, float MaxHealth)
+{
+	BP_OnHealthChange(Health, MaxHealth);
 }
 

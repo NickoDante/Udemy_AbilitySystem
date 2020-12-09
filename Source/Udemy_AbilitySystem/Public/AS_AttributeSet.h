@@ -9,6 +9,9 @@
 /**
  * 
  */
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnHealthChangeSignature, float, Health, float, MaxHealth);
+
 UCLASS()
 class UDEMY_ABILITYSYSTEM_API UAS_AttributeSet : public UAttributeSet
 {
@@ -22,6 +25,13 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AttributeSet")
 	FGameplayAttributeData Health;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AttributeSet")
+	FGameplayAttributeData MaxHealth;
+
+public:
+
+	FOnHealthChangeSignature OnHealthChangeDelegate;
 
 protected:
 
