@@ -55,6 +55,12 @@ public:
 	UFUNCTION()
 	void OnHealthChange(float Health, float MaxHealth);
 
+	UFUNCTION()
+	void OnManaChange(float Mana, float MaxMana);
+
+	UFUNCTION()
+	void OnStrengthChange(float Strength, float MaxStrength);
+
 	void AutoDeterminTeamIDbyControllerType();
 
 	UFUNCTION(BlueprintCallable, Category = "Getter")
@@ -68,6 +74,12 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent/*, meta = (DisplayName = "OnHealthChange")*/)
 	void BP_OnHealthChange(float Health, float MaxHealth);
+
+	UFUNCTION(BlueprintImplementableEvent/*, meta = (DisplayName = "OnHealthChange")*/)
+	void BP_OnManaChange(float Mana, float MaxMana);
+
+	UFUNCTION(BlueprintImplementableEvent/*, meta = (DisplayName = "OnHealthChange")*/)
+	void BP_OnStrengthChange(float Strength, float MaxStrength);
 
 	UFUNCTION(BlueprintImplementableEvent/*, meta = (DisplayName = "OnHealthChange")*/)
 	void BP_Die();

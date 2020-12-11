@@ -25,6 +25,8 @@ void AAS_CharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
 	AttributeSetBaseComponent->OnHealthChangeDelegate.AddDynamic(this, &AAS_CharacterBase::OnHealthChange);
+	AttributeSetBaseComponent->OnManaChangeDelegate.AddDynamic(this, &AAS_CharacterBase::OnManaChange);
+	AttributeSetBaseComponent->OnStrengthChangeDelegate.AddDynamic(this, &AAS_CharacterBase::OnStrengthChange);
 
 	AutoDeterminTeamIDbyControllerType();
 }
@@ -74,6 +76,16 @@ void AAS_CharacterBase::OnHealthChange(float Health, float MaxHealth)
 	}
 
 	BP_OnHealthChange(Health, MaxHealth);
+}
+
+void AAS_CharacterBase::OnManaChange(float Mana, float MaxMana)
+{
+	BP_OnManaChange(Mana, MaxMana);
+}
+
+void AAS_CharacterBase::OnStrengthChange(float Strength, float MaxStrength)
+{
+	BP_OnStrengthChange(Strength, MaxStrength);
 }
 
 void AAS_CharacterBase::AutoDeterminTeamIDbyControllerType()

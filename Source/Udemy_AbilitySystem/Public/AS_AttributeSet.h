@@ -29,9 +29,23 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AttributeSet")
 	FGameplayAttributeData MaxHealth;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AttributeSet")
+	FGameplayAttributeData Mana;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AttributeSet")
+	FGameplayAttributeData MaxMana;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AttributeSet")
+	FGameplayAttributeData Strength;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AttributeSet")
+	FGameplayAttributeData MaxStrength;
+
 public:
 
 	FOnHealthChangeSignature OnHealthChangeDelegate;
+	FOnHealthChangeSignature OnManaChangeDelegate;
+	FOnHealthChangeSignature OnStrengthChangeDelegate;
 
 protected:
 

@@ -7,7 +7,11 @@
 
 UAS_AttributeSet::UAS_AttributeSet()
 	: Health(200.0f),
-	MaxHealth(200.0f)
+	MaxHealth(200.0f),
+	Mana(100.0f),
+	MaxMana(150.0f),
+	Strength(250.0f),
+	MaxStrength(250.0f)
 {
 
 }
@@ -19,7 +23,22 @@ void UAS_AttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectMod
 	{
 		Health.SetCurrentValue(FMath::Clamp(Health.GetCurrentValue(), 0.0f, MaxHealth.GetCurrentValue()));
 		Health.SetBaseValue(FMath::Clamp(Health.GetBaseValue(), 0.0f, MaxHealth.GetBaseValue()));
-		UE_LOG(LogTemp, Warning, TEXT("Ouch, I took some damage, now my Health is: %f"), Health.GetCurrentValue());
 		OnHealthChangeDelegate.Broadcast(Health.GetCurrentValue(), MaxHealth.GetCurrentValue());
+	}
+
+	// If the value that has been affected was the Health.
+	if (Data.EvaluatedData.Attribute.GetUProperty() == FindFieldChecked<UProperty>(UAS_AttributeSet::StaticClass(), GET_MEMBER_NAME_CHECKED(UAS_AttributeSet, Mana)))
+	{
+		Mana.SetCurrentValue(FMath::Clamp(Mana.GetCurrentValue(), 0.0f, MaxMana.GetCurrentValue()));
+		Mana.SetBaseValue(FMath::Clamp(Mana.GetBaseValue(), 0.0f, MaxMana.GetBaseValue()));
+		OnManaChangeDelegate.Broadcast(Mana.GetCurrentValue(), MaxMana.GetCurrentValue());
+	}
+
+	// If the value that has been affected was the Health.
+	if (Data.EvaluatedData.Attribute.GetUProperty() == FindFieldChecked<UProperty>(UAS_AttributeSet::StaticClass(), GET_MEMBER_NAME_CHECKED(UAS_AttributeSet, Strength)))
+	{
+		Strength.SetCurrentValue(FMath::Clamp(Strength.GetCurrentValue(), 0.0f, MaxStrength.GetCurrentValue()));
+		Strength.SetBaseValue(FMath::Clamp(Strength.GetBaseValue(), 0.0f, MaxStrength.GetBaseValue()));
+		OnStrengthChangeDelegate.Broadcast(Strength.GetCurrentValue(), MaxStrength.GetCurrentValue());
 	}
 }
