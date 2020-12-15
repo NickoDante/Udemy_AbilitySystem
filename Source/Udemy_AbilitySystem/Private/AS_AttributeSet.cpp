@@ -4,12 +4,13 @@
 #include "AS_AttributeSet.h"
 #include "GameplayEffectExtension.h"
 #include "GameplayEffect.h"
+#include "AS_CharacterBase.h"
 
 UAS_AttributeSet::UAS_AttributeSet()
 	: Health(200.0f),
 	MaxHealth(200.0f),
 	Mana(100.0f),
-	MaxMana(150.0f),
+	MaxMana(100.0f),
 	Strength(250.0f),
 	MaxStrength(250.0f)
 {
@@ -24,6 +25,22 @@ void UAS_AttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectMod
 		Health.SetCurrentValue(FMath::Clamp(Health.GetCurrentValue(), 0.0f, MaxHealth.GetCurrentValue()));
 		Health.SetBaseValue(FMath::Clamp(Health.GetBaseValue(), 0.0f, MaxHealth.GetBaseValue()));
 		OnHealthChangeDelegate.Broadcast(Health.GetCurrentValue(), MaxHealth.GetCurrentValue());
+		
+		AAS_CharacterBase* CharacterOwner = Cast<AAS_CharacterBase>(GetOwningActor());
+		if (Health.GetCurrentValue() == MaxHealth.GetCurrentValue())
+		{
+			if (CharacterOwner)
+			{
+				CharacterOwner->AddGameplayTag(CharacterOwner->FullHealthTag);
+			}
+		}
+		else
+		{
+			if (CharacterOwner)
+			{
+				CharacterOwner->RemoveGameplayTag(CharacterOwner->FullHealthTag);
+			}
+		}
 	}
 
 	// If the value that has been affected was the Health.

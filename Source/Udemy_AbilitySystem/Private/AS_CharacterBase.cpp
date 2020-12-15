@@ -29,6 +29,7 @@ void AAS_CharacterBase::BeginPlay()
 	AttributeSetBaseComponent->OnStrengthChangeDelegate.AddDynamic(this, &AAS_CharacterBase::OnStrengthChange);
 
 	AutoDeterminTeamIDbyControllerType();
+	AddGameplayTag(FullHealthTag);
 }
 
 // Called every frame
@@ -114,5 +115,16 @@ void AAS_CharacterBase::Dead()
 	{
 		AIC->GetBrainComponent()->StopLogic("Dead");
 	}
+}
+
+void AAS_CharacterBase::AddGameplayTag(FGameplayTag TagToAdd)
+{
+	GetAbilitySystemComponent()->AddLooseGameplayTag(TagToAdd);
+	GetAbilitySystemComponent()->SetTagMapCount(TagToAdd, 1);
+}
+
+void AAS_CharacterBase::RemoveGameplayTag(FGameplayTag TagToRemove)
+{
+	GetAbilitySystemComponent()->RemoveLooseGameplayTag(TagToRemove);
 }
 

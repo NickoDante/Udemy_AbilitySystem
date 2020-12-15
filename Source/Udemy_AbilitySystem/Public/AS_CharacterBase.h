@@ -34,6 +34,11 @@ protected:
 
 	uint8 TeamID;
 
+public:
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterBase")
+	FGameplayTag FullHealthTag;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -69,6 +74,12 @@ public:
 	uint8 GetTeamID() const { return TeamID; };
 
 	void Dead();
+
+	UFUNCTION(BlueprintCallable, Category = "Abilities")
+	void AddGameplayTag(FGameplayTag TagToAdd);
+
+	UFUNCTION(BlueprintCallable, Category = "Abilities")
+	void RemoveGameplayTag(FGameplayTag TagToRemove);
 
 public:
 
