@@ -104,6 +104,22 @@ bool AAS_CharacterBase::IsOtherHostile(AAS_CharacterBase* OtherCharacter) const
 
 void AAS_CharacterBase::Dead()
 {
+	DisableInputControl();
+}
+
+void AAS_CharacterBase::AddGameplayTag(FGameplayTag TagToAdd)
+{
+	GetAbilitySystemComponent()->AddLooseGameplayTag(TagToAdd);
+	GetAbilitySystemComponent()->SetTagMapCount(TagToAdd, 1);
+}
+
+void AAS_CharacterBase::RemoveGameplayTag(FGameplayTag TagToRemove)
+{
+	GetAbilitySystemComponent()->RemoveLooseGameplayTag(TagToRemove);
+}
+
+void AAS_CharacterBase::DisableInputControl()
+{
 	APlayerController* PC = Cast<APlayerController>(GetController());
 	if (PC)
 	{
@@ -117,14 +133,29 @@ void AAS_CharacterBase::Dead()
 	}
 }
 
-void AAS_CharacterBase::AddGameplayTag(FGameplayTag TagToAdd)
+void AAS_CharacterBase::EnableInputControl()
 {
-	GetAbilitySystemComponent()->AddLooseGameplayTag(TagToAdd);
-	GetAbilitySystemComponent()->SetTagMapCount(TagToAdd, 1);
+	if (bIsDead)
+	{
+		return;
+	}
+
+	APlayerController* PC = Cast<APlayerController>(GetController());
+	if (PC)
+	{
+		PC->EnableInput(PC);
+	}
+
+	AAIController* AIC = Cast<AAIController>(GetController());
+	if (AIC)
+	{
+		AIC->GetBrainComponent()->RestartLogic();
+	}
 }
 
-void AAS_CharacterBase::RemoveGameplayTag(FGameplayTag TagToRemove)
+void AAS_CharacterBase::HitStun(const float StunDuration)
 {
-	GetAbilitySystemComponent()->RemoveLooseGameplayTag(TagToRemove);
+	DisableInputControl();
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle_Stun, this, &AAS_CharacterBase::EnableInputControl, StunDuration);
 }
 

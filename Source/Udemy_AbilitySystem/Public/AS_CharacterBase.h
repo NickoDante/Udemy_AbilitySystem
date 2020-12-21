@@ -34,6 +34,8 @@ protected:
 
 	uint8 TeamID;
 
+	FTimerHandle TimerHandle_Stun;
+
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterBase")
@@ -80,6 +82,15 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Abilities")
 	void RemoveGameplayTag(FGameplayTag TagToRemove);
+
+	UFUNCTION(BlueprintCallable)
+	void DisableInputControl();
+
+	UFUNCTION(BlueprintCallable)
+	void EnableInputControl();
+
+	UFUNCTION(BlueprintCallable)
+	void HitStun(const float StunDuration);
 
 public:
 
