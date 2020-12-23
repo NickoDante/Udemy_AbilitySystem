@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "AS_AbilityTypes.h"
 #include "AS_PlayerControllerBase.generated.h"
 
 /**
@@ -14,4 +15,8 @@ class UDEMY_ABILITYSYSTEM_API AAS_PlayerControllerBase : public APlayerControlle
 {
 	GENERATED_BODY()
 	
+public: 
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "PlayerControllerBase")
+	void AddAbilityToUI(FAS_GameplayAbilityInfo AbilityInfo);
 };

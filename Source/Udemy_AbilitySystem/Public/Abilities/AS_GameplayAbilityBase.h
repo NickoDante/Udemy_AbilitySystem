@@ -23,6 +23,6 @@ public:
 public: 
 
 	UFUNCTION(BlueprintCallable, Category = "AbilityBase")
-	FGameplayAbilityInfo GetAbilityInfo();
+	FAS_GameplayAbilityInfo GetAbilityInfo();
 	
 };

@@ -3,17 +3,17 @@
 
 #include "AS_AbilityTypes.h"
 
-FGameplayAbilityInfo::FGameplayAbilityInfo()
+FAS_GameplayAbilityInfo::FAS_GameplayAbilityInfo()
 	:CooldownDuration(0.0f),
 	Cost(0.0f),
-	CostType(EAbilityCostType::Mana),
+	CostType(EAS_AbilityCostType::Mana),
 	UIMaterial(nullptr),
 	AbilityClass(nullptr)
 {
 
 }
 
-FGameplayAbilityInfo::FGameplayAbilityInfo(float InCoolDuration, float InCost, EAbilityCostType InCostType, UMaterialInstance* InUIMaterial, TSubclassOf<UAS_GameplayAbilityBase> InAbilityClass)
+FAS_GameplayAbilityInfo::FAS_GameplayAbilityInfo(float InCoolDuration, float InCost, EAS_AbilityCostType InCostType, UMaterialInstance* InUIMaterial, TSubclassOf<UAS_GameplayAbilityBase> InAbilityClass)
 	:CooldownDuration(InCoolDuration),
 	Cost(InCost),
 	CostType(InCostType),

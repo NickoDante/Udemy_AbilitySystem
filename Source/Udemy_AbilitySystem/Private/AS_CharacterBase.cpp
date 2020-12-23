@@ -6,6 +6,8 @@
 #include "GameFramework/PlayerController.h"
 #include "AIController.h"
 #include "BrainComponent.h"
+#include "Abilities/AS_GameplayAbilityBase.h"
+#include "AS_PlayerControllerBase.h"
 
 // Sets default values
 AAS_CharacterBase::AAS_CharacterBase()
@@ -64,6 +66,25 @@ void AAS_CharacterBase::AquireAbility(TSubclassOf<UGameplayAbility> AbilityToAqu
 		}
 
 		AbilitySystemComponent->InitAbilityActorInfo(this, this);
+	}
+}
+
+void AAS_CharacterBase::AquireAbilities(TArray<TSubclassOf<UGameplayAbility>> AbilitiesToAquire)
+{
+	for (TSubclassOf<UGameplayAbility> NewAbility : AbilitiesToAquire)
+	{
+		AquireAbility(NewAbility);
+
+		// Then, check if is our own Gameplay Ability to include it to the UI
+		if (NewAbility->IsChildOf(UAS_GameplayAbilityBase::StaticClass()))
+		{
+			// Get the TsubclassOf
+			TSubclassOf<UAS_GameplayAbilityBase> AbilityBaseClass = *NewAbility;
+			if (AbilityBaseClass != nullptr)
+			{
+				AddAbilityToUI(AbilityBaseClass);
+			}
+		}
 	}
 }
 
@@ -157,5 +178,20 @@ void AAS_CharacterBase::HitStun(const float StunDuration)
 {
 	DisableInputControl();
 	GetWorld()->GetTimerManager().SetTimer(TimerHandle_Stun, this, &AAS_CharacterBase::EnableInputControl, StunDuration);
+}
+
+void AAS_CharacterBase::AddAbilityToUI(TSubclassOf<UAS_GameplayAbilityBase> AbilityToAdd)
+{
+	AAS_PlayerControllerBase* PlayerControllerBase = Cast<AAS_PlayerControllerBase>(GetController());
+	if (PlayerControllerBase)
+	{
+		UAS_GameplayAbilityBase* AbilityInstance = AbilityToAdd->GetDefaultObject<UAS_GameplayAbilityBase>();
+		if (AbilityInstance)
+		{
+			// Get the info of this Gameplay Ability & ad to the UI on the player controller.
+			FAS_GameplayAbilityInfo AbilityInfo = AbilityInstance->GetAbilityInfo();
+			PlayerControllerBase->AddAbilityToUI(AbilityInfo);
+		}
+	}
 }
 

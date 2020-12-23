@@ -7,9 +7,11 @@
 #include "AbilitySystemInterface.h"
 #include "AbilitySystemComponent.h"
 #include "Abilities/GameplayAbility.h"
+#include "AS_AbilityTypes.h"
 #include "AS_CharacterBase.generated.h"
 
 class UAS_AttributeSet;
+class UAS_GameplayAbilityBase;
 
 UCLASS()
 class UDEMY_ABILITYSYSTEM_API AAS_CharacterBase : public ACharacter, public IAbilitySystemInterface
@@ -59,6 +61,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Abilities")
 	void AquireAbility(TSubclassOf<UGameplayAbility> AbilityToAquire);
 
+	UFUNCTION(BlueprintCallable, Category = "Abilities")
+	void AquireAbilities(TArray<TSubclassOf<UGameplayAbility>> AbilitiesToAquire);
+
 	UFUNCTION()
 	void OnHealthChange(float Health, float MaxHealth);
 
@@ -91,6 +96,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void HitStun(const float StunDuration);
+
+	void AddAbilityToUI(TSubclassOf<UAS_GameplayAbilityBase> AbilityToAdd);
 
 public:
 

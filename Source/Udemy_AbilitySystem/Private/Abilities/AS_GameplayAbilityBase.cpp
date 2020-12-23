@@ -3,7 +3,7 @@
 
 #include "Abilities/AS_GameplayAbilityBase.h"
 
-FGameplayAbilityInfo UAS_GameplayAbilityBase::GetAbilityInfo()
+FAS_GameplayAbilityInfo UAS_GameplayAbilityBase::GetAbilityInfo()
 {
 	UGameplayEffect* CooldownEffect = GetCooldownGameplayEffect();
 	UGameplayEffect* CostEffect = GetCostGameplayEffect();
@@ -16,7 +16,7 @@ FGameplayAbilityInfo UAS_GameplayAbilityBase::GetAbilityInfo()
 
 		// Get the cost value.
 		float Cost = 0.0f;
-		EAbilityCostType CostType;
+		EAS_AbilityCostType CostType = EAS_AbilityCostType::Mana;
 		if (CostEffect->Modifiers.Num() > 0)
 		{
 			FGameplayModifierInfo EffectInfo = CostEffect->Modifiers[0];
@@ -28,20 +28,20 @@ FGameplayAbilityInfo UAS_GameplayAbilityBase::GetAbilityInfo()
 			
 			if (AttributeName == "Health")
 			{
-				CostType = EAbilityCostType::Health;
+				CostType = EAS_AbilityCostType::Health;
 			}
 			else if (AttributeName == "Mana")
 			{
-				CostType = EAbilityCostType::Mana;
+				CostType = EAS_AbilityCostType::Mana;
 			}
 			else if (AttributeName == "Strength")
 			{
-				CostType = EAbilityCostType::Strength;
+				CostType = EAS_AbilityCostType::Strength;
 			}
 		}
 
-		return FGameplayAbilityInfo(CooldownDuration, Cost, CostType, UIMaterial, GetClass());
+		return FAS_GameplayAbilityInfo(CooldownDuration, Cost, CostType, UIMaterial, GetClass());
 	}
 
-	return FGameplayAbilityInfo();
+	return FAS_GameplayAbilityInfo();
 }

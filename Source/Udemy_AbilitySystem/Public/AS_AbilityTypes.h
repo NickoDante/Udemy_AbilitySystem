@@ -9,7 +9,7 @@
 class UAS_GameplayAbilityBase;
 
 UENUM(BlueprintType)
-enum class EAbilityCostType : uint8 
+enum class EAS_AbilityCostType : uint8 
 {
 	Health,
 	Mana,
@@ -17,7 +17,7 @@ enum class EAbilityCostType : uint8
 };
 
 USTRUCT(BlueprintType)
-struct FGameplayAbilityInfo
+struct FAS_GameplayAbilityInfo
 {
 	GENERATED_BODY()
 
@@ -28,7 +28,7 @@ struct FGameplayAbilityInfo
 	float Cost;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "AbilityInfo")
-	EAbilityCostType CostType;
+	EAS_AbilityCostType CostType;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "AbilityInfo")
 	UMaterialInstance* UIMaterial;
@@ -36,6 +36,6 @@ struct FGameplayAbilityInfo
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "AbilityInfo")
 	TSubclassOf<UAS_GameplayAbilityBase> AbilityClass;
 
-	FGameplayAbilityInfo();
-	FGameplayAbilityInfo(float InCoolDuration, float InCost, EAbilityCostType InCostType, UMaterialInstance* InUIMaterial, TSubclassOf<UAS_GameplayAbilityBase> InAbilityClass);
+	FAS_GameplayAbilityInfo();
+	FAS_GameplayAbilityInfo(float InCoolDuration, float InCost, EAS_AbilityCostType InCostType, UMaterialInstance* InUIMaterial, TSubclassOf<UAS_GameplayAbilityBase> InAbilityClass);
 };
