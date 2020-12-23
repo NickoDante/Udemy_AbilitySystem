@@ -190,7 +190,7 @@ void AAS_CharacterBase::AddAbilityToUI(TSubclassOf<UAS_GameplayAbilityBase> Abil
 		{
 			// Get the info of this Gameplay Ability & ad to the UI on the player controller.
 			FAS_GameplayAbilityInfo AbilityInfo = AbilityInstance->GetAbilityInfo();
-			PlayerControllerBase->AddAbilityToUI(AbilityInfo);
+			PlayerControllerBase->BP_AddAbilityToUI(AbilityInfo);
 		}
 	}
 }

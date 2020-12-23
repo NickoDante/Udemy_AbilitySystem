@@ -18,5 +18,5 @@ class UDEMY_ABILITYSYSTEM_API AAS_PlayerControllerBase : public APlayerControlle
 public: 
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "PlayerControllerBase")
-	void AddAbilityToUI(FAS_GameplayAbilityInfo AbilityInfo);
+	void BP_AddAbilityToUI(FAS_GameplayAbilityInfo AbilityInfo);
 };
