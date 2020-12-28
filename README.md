@@ -6,3 +6,6 @@ Starting Section 4: Health Regen Ability
 
 *******************************************************************************************
 Starting Section 5: Dashing Ability
+
+*******************************************************************************************
+Starting Section 6: Lazer Ability
