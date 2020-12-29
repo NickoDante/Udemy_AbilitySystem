@@ -9,3 +9,6 @@ Starting Section 5: Dashing Ability
 
 *******************************************************************************************
 Starting Section 6: Lazer Ability
+
+*******************************************************************************************
+Starting Section 7: Ground Blast Ability
