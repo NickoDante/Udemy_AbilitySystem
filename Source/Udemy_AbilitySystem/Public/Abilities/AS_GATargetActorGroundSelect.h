@@ -24,7 +24,9 @@ public:
 	/** Initialize and begin targeting logic  */
 	virtual void StartTargeting(UGameplayAbility* Ability) override;
 
-	virtual bool IsConfirmTargetingAllowed() override;
+	virtual void ConfirmTargetingAndContinue() override;
+
+	virtual void Tick(float DeltaSeconds) override;
 
 	UFUNCTION(BlueprintCallable, Category = "Ground Select")
 	bool GetPlayerLookingPoint(FVector& OutViewpoint);

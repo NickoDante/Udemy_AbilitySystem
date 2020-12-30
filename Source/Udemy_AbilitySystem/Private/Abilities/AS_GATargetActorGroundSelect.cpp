@@ -1,17 +1,19 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "AS_GATargetActorGroundSelect.h"
+#include "Abilities/AS_GATargetActorGroundSelect.h"
+#include "Abilities/GameplayAbility.h"
+#include "GameFramework/Pawn.h"
+#include "GameFramework/PlayerController.h"
+#include "DrawDebugHelpers.h"
 
-// Not sure if is the Begin Play
 void AAS_GATargetActorGroundSelect::StartTargeting(UGameplayAbility* Ability)
 {
 	OwningAbility = Ability;
 	MasterPC = Cast<APlayerController>(Ability->GetOwningActorFromActorInfo()->GetInstigatorController());
 }
 
-// Not sure if is the Tick...
-bool AAS_GATargetActorGroundSelect::IsConfirmTargetingAllowed()
+void AAS_GATargetActorGroundSelect::ConfirmTargetingAndContinue()
 {
 	// Get the point where the player is looking at.
 	FVector ViewLocation = FVector::ZeroVector;
@@ -20,7 +22,7 @@ bool AAS_GATargetActorGroundSelect::IsConfirmTargetingAllowed()
 	// Start to configure the overlaps rules with a sphere
 	TArray<FOverlapResult> Overlaps;
 	TArray<TWeakObjectPtr<AActor>> OverlappedActors;
-	bTraceComplex = false;
+	bool bTraceComplex = false;
 
 	FCollisionQueryParams CollisionQueryParams;
 	CollisionQueryParams.bTraceComplex = bTraceComplex;
@@ -53,10 +55,28 @@ bool AAS_GATargetActorGroundSelect::IsConfirmTargetingAllowed()
 			}
 		}
 	}
+
+	// If exist more than 1 overlapped actor, create the Target data to be sended to the broadcast (Check the parent function purpose)
+	if (OverlappedActors.Num() > 0)
+	{
+		FGameplayAbilityTargetDataHandle TargetData = StartLocation.MakeTargetDataHandleFromActors(OverlappedActors);
+		TargetDataReadyDelegate.Broadcast(TargetData);
+	}
 	else
 	{
-
+		// If not, Return empty data,
+		TargetDataReadyDelegate.Broadcast(FGameplayAbilityTargetDataHandle());
 	}
+}
+
+void AAS_GATargetActorGroundSelect::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+	
+	// Debugging the sphere behavior.
+	FVector LookPoint;
+	GetPlayerLookingPoint(LookPoint);
+	DrawDebugSphere(GetWorld(), LookPoint, Radius, 32, FColor::Red, true, -1.0, 0, 5.0f);
 }
 
 bool AAS_GATargetActorGroundSelect::GetPlayerLookingPoint(FVector& OutViewpoint)
