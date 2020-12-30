@@ -71,16 +71,26 @@ void AAS_GATargetActorGroundSelect::ConfirmTargetingAndContinue()
 		}
 	}
 
+	// This is for add on the target data, the position of the decal when is activated. 
+	FGameplayAbilityTargetData_LocationInfo* CenterLocation = new FGameplayAbilityTargetData_LocationInfo();
+	if (DecalComponent)
+	{
+		CenterLocation->TargetLocation.LiteralTransform = DecalComponent->GetComponentTransform();
+		CenterLocation->TargetLocation.LocationType = EGameplayAbilityTargetingLocationType::LiteralTransform;
+	}
+
 	// If exist more than 1 overlapped actor, create the Target data to be sended to the broadcast (Check the parent function purpose)
 	if (OverlappedActors.Num() > 0)
 	{
 		FGameplayAbilityTargetDataHandle TargetData = StartLocation.MakeTargetDataHandleFromActors(OverlappedActors);
+		// Add the decal position data to the target data.
+		TargetData.Add(CenterLocation);
 		TargetDataReadyDelegate.Broadcast(TargetData);
 	}
 	else
 	{
 		// If not, Return empty data,
-		TargetDataReadyDelegate.Broadcast(FGameplayAbilityTargetDataHandle());
+		TargetDataReadyDelegate.Broadcast(FGameplayAbilityTargetDataHandle(CenterLocation));
 	}
 }
 
