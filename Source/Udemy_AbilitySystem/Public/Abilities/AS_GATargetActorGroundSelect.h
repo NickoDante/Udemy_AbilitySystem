@@ -16,10 +16,12 @@ class UDEMY_ABILITYSYSTEM_API AAS_GATargetActorGroundSelect : public AGameplayAb
 	
 public:
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ground Select")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ground Select", meta = (ExposeOnSpawn = true))
 	float Radius;
 
 public: 
+
+	AAS_GATargetActorGroundSelect();
 
 	/** Initialize and begin targeting logic  */
 	virtual void StartTargeting(UGameplayAbility* Ability) override;

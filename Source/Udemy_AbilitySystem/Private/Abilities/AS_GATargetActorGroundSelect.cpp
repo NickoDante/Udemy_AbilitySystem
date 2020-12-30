@@ -7,6 +7,12 @@
 #include "GameFramework/PlayerController.h"
 #include "DrawDebugHelpers.h"
 
+AAS_GATargetActorGroundSelect::AAS_GATargetActorGroundSelect()
+{
+	PrimaryActorTick.bCanEverTick = true;
+	Radius = 200.0f;
+}
+
 void AAS_GATargetActorGroundSelect::StartTargeting(UGameplayAbility* Ability)
 {
 	OwningAbility = Ability;
@@ -76,7 +82,7 @@ void AAS_GATargetActorGroundSelect::Tick(float DeltaSeconds)
 	// Debugging the sphere behavior.
 	FVector LookPoint;
 	GetPlayerLookingPoint(LookPoint);
-	DrawDebugSphere(GetWorld(), LookPoint, Radius, 32, FColor::Red, true, -1.0, 0, 5.0f);
+	DrawDebugSphere(GetWorld(), LookPoint, Radius, 32, FColor::Red, false, -1.0, 0, 5.0f);
 }
 
 bool AAS_GATargetActorGroundSelect::GetPlayerLookingPoint(FVector& OutViewpoint)
