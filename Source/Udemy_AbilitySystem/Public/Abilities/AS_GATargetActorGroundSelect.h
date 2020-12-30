@@ -14,10 +14,18 @@ class UDEMY_ABILITYSYSTEM_API AAS_GATargetActorGroundSelect : public AGameplayAb
 {
 	GENERATED_BODY()
 	
+public:
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ground Select")
+	float Radius;
+
 public: 
 
 	/** Initialize and begin targeting logic  */
 	virtual void StartTargeting(UGameplayAbility* Ability) override;
 
 	virtual bool IsConfirmTargetingAllowed() override;
+
+	UFUNCTION(BlueprintCallable, Category = "Ground Select")
+	bool GetPlayerLookingPoint(FVector& OutViewpoint);
 };
