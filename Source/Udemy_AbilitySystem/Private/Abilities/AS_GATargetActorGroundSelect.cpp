@@ -6,17 +6,26 @@
 #include "GameFramework/Pawn.h"
 #include "GameFramework/PlayerController.h"
 #include "DrawDebugHelpers.h"
+#include "Components/DecalComponent.h"
 
 AAS_GATargetActorGroundSelect::AAS_GATargetActorGroundSelect()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	Radius = 200.0f;
+
+	CustomRootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
+	SetRootComponent(CustomRootComponent);
+
+	DecalComponent = CreateDefaultSubobject<UDecalComponent>(TEXT("DecalComponent"));
+	DecalComponent->SetupAttachment(CustomRootComponent);
+	DecalComponent->DecalSize = FVector(Radius);
 }
 
 void AAS_GATargetActorGroundSelect::StartTargeting(UGameplayAbility* Ability)
 {
 	OwningAbility = Ability;
 	MasterPC = Cast<APlayerController>(Ability->GetOwningActorFromActorInfo()->GetInstigatorController());
+	DecalComponent->DecalSize = FVector(Radius);
 }
 
 void AAS_GATargetActorGroundSelect::ConfirmTargetingAndContinue()
@@ -82,7 +91,10 @@ void AAS_GATargetActorGroundSelect::Tick(float DeltaSeconds)
 	// Debugging the sphere behavior.
 	FVector LookPoint;
 	GetPlayerLookingPoint(LookPoint);
-	DrawDebugSphere(GetWorld(), LookPoint, Radius, 32, FColor::Red, false, -1.0, 0, 5.0f);
+	
+	// DrawDebugSphere(GetWorld(), LookPoint, Radius, 32, FColor::Red, false, -1.0, 0, 5.0f);
+
+	SetActorLocation(LookPoint);
 }
 
 bool AAS_GATargetActorGroundSelect::GetPlayerLookingPoint(FVector& OutViewpoint)

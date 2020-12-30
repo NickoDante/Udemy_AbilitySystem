@@ -6,14 +6,21 @@
 #include "Abilities/GameplayAbilityTargetActor.h"
 #include "AS_GATargetActorGroundSelect.generated.h"
 
-/**
- * 
- */
+class UDecalComponent;
+
 UCLASS()
 class UDEMY_ABILITYSYSTEM_API AAS_GATargetActorGroundSelect : public AGameplayAbilityTargetActor
 {
 	GENERATED_BODY()
 	
+protected:
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	USceneComponent* CustomRootComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	UDecalComponent* DecalComponent;
+
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ground Select", meta = (ExposeOnSpawn = true))
