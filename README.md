@@ -12,3 +12,6 @@ Starting Section 6: Lazer Ability
 
 *******************************************************************************************
 Starting Section 7: Ground Blast Ability
+
+*******************************************************************************************
+Starting Section 8: Fire Blast Ability
